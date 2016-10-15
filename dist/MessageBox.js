@@ -6,13 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _handlebars = require('handlebars');
-
-var _handlebars2 = _interopRequireDefault(_handlebars);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _deepExtend = require('deep-extend');
 
@@ -21,6 +17,21 @@ var _deepExtend2 = _interopRequireDefault(_deepExtend);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var replacementStrings = ['genericName', 'name', 'type'];
+var replacements = replacementStrings.reduce(function (result, replacement) {
+  return _extends({}, result, _defineProperty({}, replacement, new RegExp('{{' + replacement + '}}', 'g')));
+}, {});
+
+var compiler = function compiler(message) {
+  return function (context) {
+    return Object.keys(replacements).reduce(function (result, replacement) {
+      return result.replace(replacements[replacement], context[replacement]);
+    }, message);
+  };
+};
 
 var MessageBox = function () {
   function MessageBox() {
@@ -93,7 +104,9 @@ var MessageBox = function () {
 
       if (message && (typeof message === 'undefined' ? 'undefined' : _typeof(message)) === 'object') message = message[genericName] || message._default; // eslint-disable-line no-underscore-dangle
 
-      if (typeof message === 'string') message = _handlebars2.default.compile(message);
+      if (typeof message === 'string') {
+        message = compiler(message);
+      }
 
       if (typeof message !== 'function') return fieldName + ' is invalid';
 
