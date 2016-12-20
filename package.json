@@ -1,17 +1,17 @@
 {
-  "name": "message-box",
+  "name": "@clayne/message-box",
   "version": "0.0.1",
   "description": "A package for defining and getting validation error messages, with support for Meteor Tracker reactivity",
   "author": "Eric Dobbertin <aldeed@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aldeed/node-message-box.git"
+    "url": "https://github.com/clayne11/node-message-box.git"
   },
   "bugs": {
-    "url": "https://github.com/aldeed/node-message-box/issues"
+    "url": "https://github.com/clayne11/node-message-box/issues"
   },
-  "homepage": "https://github.com/aldeed/node-message-box",
+  "homepage": "https://github.com/clayne11/node-message-box",
   "files": [
     "dist"
   ],
